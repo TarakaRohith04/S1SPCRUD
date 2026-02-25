@@ -8,11 +8,12 @@ public class StudentDaoImpl implements StudentDao {
 	public Student getStd() {
 		return std;
 	}
+	
 	public void setStd(Student std) {
 		this.std = std;
 	}
 
-	private Connection conn;
+	/*private Connection conn;
 
     public StudentDaoImpl() {
         try {
@@ -27,10 +28,12 @@ public class StudentDaoImpl implements StudentDao {
         } catch (Exception e) {
             System.out.println("Connection Error: " + e.getMessage());
         }
-    }
+    }*/
+	
 	@Override
 	public void insert(Student s) {
 		try {
+		Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/klu", "root","root");
 		PreparedStatement ps = conn.prepareStatement("insert into student values(?,?)");
 		ps.setInt(1,s.getSid());
 		ps.setString(2,s.getSname());
@@ -48,6 +51,7 @@ public class StudentDaoImpl implements StudentDao {
 	@Override
 	public Student get() {
 		try {
+			Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/klu", "root","root");
 			Statement stmt = conn.createStatement();
 			ResultSet  rs = stmt.executeQuery("select * from student limit 1");
 			
@@ -66,6 +70,7 @@ public class StudentDaoImpl implements StudentDao {
 	@Override
 	public void update(Student s) {
 		try {
+			Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/klu", "root","root");
 			PreparedStatement ps = conn.prepareStatement("update student set sname=? where sid=?");
 			ps.setString(1,s.getSname());
 			ps.setInt(2,s.getSid());
@@ -82,6 +87,7 @@ public class StudentDaoImpl implements StudentDao {
 	public void delete() {
 		
 		try {
+			Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/klu", "root","root");
 			Statement stmt = conn.createStatement();
 			stmt.executeUpdate("delete from student");
 			System.out.println("Deleted Successfully");
